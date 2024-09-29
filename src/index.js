@@ -1,13 +1,21 @@
 #!/usr/bin/env node
 
-const axios = require("axios");
+// const axios = require("axios");
 
 const { program } = require("commander");
 
-const api = async user => {
-  const event = await axios.get(`https://api.github.com/users/${user}/events`);
-  const result = event.data;
-  console.log(result);
+// const api = async user => {
+//   const event = await axios.get(`https://api.github.com/users/${user}/events`);
+//   const result = event.data;
+//   console.log(result);
+// };
+
+const api = user => {
+  fetch(`https://api.github.com/users/${user}/events`).then(response => {
+    response.json().then(data => {
+      console.log(data);
+    });
+  });
 };
 
 program.version("0.0.1").description("CLI Activity");

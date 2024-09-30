@@ -1,25 +1,28 @@
 #!/usr/bin/env node
 
-// const axios = require("axios");
-
-// const api = async user => {
-//   const event = await axios.get(`https://api.github.com/users/${user}/events`);
-//   const result = event.data;
-//   console.log(result);
-// };
-
 const { program } = require("commander");
 
 const api = async user => {
   try {
     const response = await fetch(`https://api.github.com/users/${user}/events`);
     if (!response.ok) {
-      throw new Error("User not found");
+      throw new Error("Usuario de Github no encontrado");
     }
 
     const result = await response.json();
 
-    console.log(result);
+    const data = result.map(e => {
+      return {
+        type: e.type,
+        actor: e.actor.login,
+        repo: e.repo.name,
+        createdAt: e.created_at,
+        payload: e.payload,
+        commits: [].concat(e.payload.commits || []).map(c => c.message),
+      };
+    });
+
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

@@ -6,7 +6,7 @@ const api = async user => {
   try {
     const response = await fetch(`https://api.github.com/users/${user}/events`);
     if (!response.ok) {
-      throw new Error("Usuario de Github no encontrado");
+      throw new Error("Github user not found");
     }
 
     const result = await response.json();
@@ -17,7 +17,7 @@ const api = async user => {
         actor: e.actor.login,
         repo: e.repo.name,
         createdAt: e.created_at,
-        payload: e.payload,
+        quantity_commits: e.payload.size ?? 0,
         commits: [].concat(e.payload.commits || []).map(c => c.message),
       };
     });
@@ -37,5 +37,5 @@ try {
 
   program.parse(process.argv);
 } catch (error) {
-  console.error(`Ocurrio un error: ${error.message}`);
+  console.error(`Error: ${error.message}`);
 }

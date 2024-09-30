@@ -38,7 +38,7 @@ Si quieres ver la actividad del usuario midudev, utiliza el comando:
 github-activity midudev
 ```
 Te dará como respuesta:
-```json
+```bash
 [
   {
     type: 'PushEvent',
